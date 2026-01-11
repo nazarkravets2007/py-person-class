@@ -1,8 +1,5 @@
-from typing import List, Dict, Any
-
-
 class Person:
-    people: Dict[str, "Person"] = {}
+    people: dict[str, "Person"] = {}
 
     def __init__(self, name: str, age: int) -> None:
         self.name = name
@@ -10,8 +7,8 @@ class Person:
         Person.people[name] = self
 
 
-def create_person_list(people: List[Dict[str, Any]]) -> List[Person]:
-    # 1. Create all Person instances using list comprehension
+def create_person_list(people: list[dict[str, object]]) -> list[Person]:
+    # Create Person instances using list comprehension
     person_list = [
         Person(
             name=person_data["name"],
@@ -20,7 +17,7 @@ def create_person_list(people: List[Dict[str, Any]]) -> List[Person]:
         for person_data in people
     ]
 
-    # 2. Assign wife / husband using dict.get()
+    # Assign wife / husband using dict.get()
     for person_data in people:
         person = Person.people[person_data["name"]]
 
@@ -33,3 +30,4 @@ def create_person_list(people: List[Dict[str, Any]]) -> List[Person]:
             person.husband = Person.people[husband_name]
 
     return person_list
+t
