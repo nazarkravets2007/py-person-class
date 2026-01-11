@@ -1,29 +1,35 @@
-class Person:
-    people = {}
+from typing import List, Dict, Any
 
-    def __init__(self, name: str, age: int):
+
+class Person:
+    people: Dict[str, "Person"] = {}
+
+    def __init__(self, name: str, age: int) -> None:
         self.name = name
         self.age = age
         Person.people[name] = self
 
 
-def create_person_list(people):
-    person_list = []
-
-    for person_data in people:
-        person = Person(
+def create_person_list(people: List[Dict[str, Any]]) -> List[Person]:
+    # 1. Create all Person instances using list comprehension
+    person_list = [
+        Person(
             name=person_data["name"],
-            age=person_data["age"]
+            age=person_data["age"],
         )
-        person_list.append(person)
+        for person_data in people
+    ]
 
+    # 2. Assign wife / husband using dict.get()
     for person_data in people:
         person = Person.people[person_data["name"]]
 
-        if "wife" in person_data and person_data["wife"] is not None:
-            person.wife = Person.people[person_data["wife"]]
+        wife_name = person_data.get("wife")
+        if wife_name is not None:
+            person.wife = Person.people[wife_name]
 
-        if "husband" in person_data and person_data["husband"] is not None:
-            person.husband = Person.people[person_data["husband"]]
+        husband_name = person_data.get("husband")
+        if husband_name is not None:
+            person.husband = Person.people[husband_name]
 
     return person_list
